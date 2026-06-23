@@ -1,0 +1,1316 @@
+<title>Kubernetes Fundamentals — Innovate E-Commerce</title>
+<style>
+:root {
+  --sw: 245px;
+  --r: 5px;
+  --g0: #FAFCFF;
+  --g1: #EDF1F7;
+  --g2: #DDE4F0;
+  --t0: #1B2538;
+  --t1: #3D4F65;
+  --t2: #5A6E86;
+  --t3: #8A9BB0;
+  --a:  #C84B18;
+  --al: #FEF0EB;
+  --a2: #F5A623;
+  --b:  #2B6898;
+  --bl: #EBF3FA;
+  --gr: #166534;
+  --grl:#ECFDF5;
+  --w:  #92400E;
+  --wl: #FFFBEB;
+  --sb: #131C2A;
+  --st: #7A9AB5;
+  --sa: #F5A623;
+  --cb: #0C1624;
+  --ct: #BFD0E4;
+  --ck: #F5A623;
+  --cv: #82C49A;
+  --cn: #7DB8D4;
+  --cc: #3F6070;
+  --bd: #C5D0DE;
+  --bd2:#9DAFC4;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;background:var(--g1);color:var(--t0);font-size:15px;line-height:1.65;display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sb{width:var(--sw);min-width:var(--sw);background:var(--sb);height:100vh;position:sticky;top:0;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#253545 transparent;display:flex;flex-direction:column;padding-bottom:48px}
+.sb-logo{padding:22px 18px 18px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.sb-logo-t{font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#fff}
+.sb-logo-s{font-size:10px;color:var(--st);margin-top:2px}
+.sb-grp{margin-top:18px}
+.sb-grp-lbl{font-size:9px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--st);opacity:.5;padding:0 18px 5px;display:block}
+.sb-a{display:flex;align-items:baseline;gap:7px;padding:5px 18px;color:var(--st);text-decoration:none;font-size:11.5px;border-left:2px solid transparent;transition:color .12s,background .12s,border-color .12s}
+.sb-a:hover{color:#fff;background:rgba(255,255,255,0.04)}
+.sb-a.active{color:var(--sa);border-left-color:var(--sa);background:rgba(245,166,35,0.07)}
+.sb-a-fn{font-family:"Courier New",Courier,monospace;font-size:10.5px;font-weight:700}
+.sb-a-k{font-size:9.5px;opacity:.55}
+
+/* MAIN */
+.main{flex:1;overflow-x:hidden;min-width:0}
+
+/* HERO */
+.hero{background:var(--t0);padding:52px 64px 46px;position:relative;overflow:hidden}
+.hero::after{content:"K8S";position:absolute;right:52px;top:50%;transform:translateY(-50%);font-size:130px;font-weight:900;color:rgba(255,255,255,0.035);letter-spacing:-6px;pointer-events:none;user-select:none}
+.hero-ey{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--a2);margin-bottom:10px}
+.hero h1{font-size:30px;font-weight:800;color:#fff;line-height:1.2;margin-bottom:8px}
+.hero-sub{font-size:14px;color:rgba(255,255,255,0.52);max-width:520px;line-height:1.65}
+.hero-chips{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap}
+.hero-chip{font-size:10.5px;font-weight:600;padding:3px 10px;background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.65);border-radius:3px;letter-spacing:.02em}
+
+/* LAYER DIVIDERS */
+.layer-hdr{background:var(--b);padding:10px 64px;display:flex;align-items:center;gap:12px}
+.layer-hdr.db{background:#1D3A5A}
+.layer-hdr.be{background:#1B2E45}
+.layer-hdr.fe{background:#243852}
+.layer-hdr.app{background:#1A2D3E}
+.layer-hdr span{font-size:9.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,0.55)}
+.layer-hdr strong{font-size:12px;font-weight:700;color:#fff;letter-spacing:.04em}
+
+/* ARCH DIAGRAM */
+.arch{background:var(--g2);padding:36px 64px;border-bottom:1px solid var(--bd)}
+.arch-lbl{font-size:9.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--t2);margin-bottom:20px}
+.arch-ns{border:2px dashed var(--b);border-radius:10px;padding:28px 22px 22px;position:relative}
+.arch-ns-tag{position:absolute;top:-11px;left:18px;background:var(--g2);padding:0 8px;font-size:10px;font-weight:700;color:var(--b);letter-spacing:.05em;font-family:"Courier New",Courier,monospace}
+.arch-flow{display:flex;align-items:center;justify-content:center;flex-wrap:nowrap;gap:0}
+.arch-n{text-align:center;padding:11px 13px;border-radius:var(--r);min-width:96px}
+.arch-n.ext{background:var(--a);color:#fff}
+.arch-n.fe{background:var(--t0);color:#fff}
+.arch-n.be{background:#1D3A5A;color:#fff}
+.arch-n.db{background:var(--b);color:#fff}
+.an-name{font-size:11px;font-weight:700;letter-spacing:.02em}
+.an-detail{font-size:9.5px;opacity:.7;margin-top:2px}
+.an-bdg{font-size:8.5px;background:rgba(255,255,255,0.14);border-radius:2px;padding:1px 5px;margin-top:4px;display:inline-block}
+.arch-sep{display:flex;flex-direction:column;align-items:center;padding:0 5px;gap:2px}
+.arch-sep-ln{display:flex;align-items:center}
+.arch-sep-dash{width:20px;height:2px;background:var(--bd2)}
+.arch-sep-tip{width:0;height:0;border-top:4px solid transparent;border-bottom:4px solid transparent;border-left:6px solid var(--bd2)}
+.arch-sep-lbl{font-size:8.5px;color:var(--t3);white-space:nowrap}
+.arch-config-row{display:flex;gap:12px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+.arch-config-n{font-size:10.5px;font-weight:600;background:var(--g1);border:1px dashed var(--bd2);border-radius:3px;padding:5px 12px;color:var(--t1);font-family:"Courier New",Courier,monospace}
+
+/* CONCEPTS */
+.concepts{padding:36px 64px;border-bottom:1px solid var(--bd)}
+.sec-ey{font-size:9.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--a);margin-bottom:6px}
+.sec-t{font-size:20px;font-weight:700;color:var(--t0);margin-bottom:18px}
+.cpt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(188px,1fr));gap:10px}
+.cpt-card{background:#fff;border:1px solid var(--bd);border-top:3px solid var(--a);border-radius:var(--r);padding:13px 14px}
+.cpt-name{font-size:12px;font-weight:700;color:var(--t0);font-family:"Courier New",Courier,monospace;margin-bottom:5px}
+.cpt-desc{font-size:11.5px;color:var(--t2);line-height:1.5}
+
+/* FILE SECTIONS */
+.file-sec{border-bottom:1px solid var(--bd)}
+.file-hdr{padding:30px 64px 18px;display:flex;align-items:flex-start;gap:16px}
+.file-num{font-size:38px;font-weight:900;color:var(--g2);font-variant-numeric:tabular-nums;line-height:1;min-width:50px;margin-top:4px;letter-spacing:-2px;user-select:none}
+.file-hdr-txt{flex:1}
+.file-name{font-family:"Courier New",Courier,monospace;font-size:16px;font-weight:700;color:var(--t0);margin-bottom:7px}
+.bdg-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.bdg{font-size:9.5px;font-weight:800;padding:2px 7px;border-radius:3px;letter-spacing:.05em;text-transform:uppercase}
+.bdg-kind{background:var(--al);color:var(--a);border:1px solid #EAAA90}
+.bdg-cpt{background:var(--bl);color:var(--b);border:1px solid #90BAD8}
+.bdg-mink{background:var(--wl);color:var(--w);border:1px solid #D97706}
+
+/* FILE BODY: 2 columns */
+.file-body{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:4px 64px 40px;align-items:start}
+.y-pane{padding-right:26px}
+.y-lbl{font-size:9px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--t3);margin-bottom:7px}
+.y-blk{background:var(--cb);border-radius:var(--r);padding:17px 18px;overflow-x:auto}
+.y-blk pre{margin:0}
+.y-blk code{font-family:"Courier New",Courier,monospace;font-size:11.5px;line-height:1.8;color:var(--ct);white-space:pre}
+.yk{color:var(--ck)}
+.yv{color:var(--cv)}
+.yn{color:var(--cn)}
+.yc{color:var(--cc);font-style:italic}
+.yh{color:#E06C75}
+.yb{color:#C792EA}
+
+.x-pane{padding-left:26px;border-left:1px solid var(--bd);display:flex;flex-direction:column;gap:13px}
+.x-sec h3{font-size:12px;font-weight:700;color:var(--t0);letter-spacing:.02em;margin-bottom:5px}
+.x-sec p,.x-sec li{font-size:12.5px;color:var(--t0);line-height:1.65}
+.x-sec ul{padding-left:15px;margin:4px 0}
+.x-sec li{margin-bottom:3px}
+.x-sec strong{color:var(--t0)}
+
+.xb{border-radius:var(--r);padding:11px 13px}
+.xb.cloud{background:var(--grl);border-left:3px solid #16A34A}
+.xb.warn{background:var(--wl);border-left:3px solid #D97706}
+.xb.info{background:var(--bl);border-left:3px solid var(--b)}
+.xb-lbl{font-size:9px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;margin-bottom:4px}
+.xb.cloud .xb-lbl{color:var(--gr)}
+.xb.warn .xb-lbl{color:var(--w)}
+.xb.info .xb-lbl{color:var(--b)}
+.xb p,.xb li{font-size:12px;color:var(--t0);line-height:1.6}
+.xb ul{padding-left:14px;margin-top:4px}
+.xb li{margin-bottom:2px}
+
+.ft{width:100%;border-collapse:collapse;font-size:11.5px}
+.ft td{padding:5px 0;vertical-align:top;border-bottom:1px solid var(--g2)}
+.ft tr:last-child td{border-bottom:none}
+.ft td:first-child{font-family:"Courier New",Courier,monospace;color:var(--a);padding-right:12px;white-space:nowrap;font-size:11px;min-width:130px}
+.ft td:last-child{color:var(--t1)}
+
+/* GENERIC SECTION */
+.g-sec{padding:40px 64px;border-bottom:1px solid var(--bd)}
+.g-sec p{font-size:13.5px;color:var(--t1);line-height:1.65;margin-bottom:10px}
+.g-sec ul{padding-left:18px;margin-bottom:10px}
+.g-sec li{font-size:13.5px;color:var(--t1);margin-bottom:4px}
+
+/* DEPLOY GUIDE */
+.cmd{background:var(--cb);border-radius:var(--r);padding:13px 17px;font-family:"Courier New",Courier,monospace;font-size:12px;color:var(--ct);margin-bottom:8px;line-height:1.75;overflow-x:auto}
+.cmd .p{color:var(--sa);user-select:none}
+.cmd .c{color:var(--cc);font-style:italic}
+.cmd .h{color:#E8F4FD}
+.cmd .f{color:var(--cv)}
+.d-steps{display:flex;flex-direction:column;gap:0;margin-top:22px}
+.d-step{display:flex;gap:16px;position:relative}
+.d-step:not(:last-child)::before{content:"";position:absolute;left:13px;top:28px;bottom:0;width:2px;background:var(--bd)}
+.d-n{width:28px;height:28px;min-width:28px;background:var(--b);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;position:relative;z-index:1;margin-top:1px}
+.d-body{padding-bottom:22px;flex:1}
+.d-body h4{font-size:13.5px;font-weight:700;color:var(--t0);margin-bottom:4px}
+.d-body p{font-size:12.5px;color:var(--t1);line-height:1.6;margin-bottom:6px}
+
+/* CODE (JS/PHP snippets) */
+.code-blk{background:var(--cb);border-radius:var(--r);padding:16px 18px;overflow-x:auto;margin-bottom:12px}
+.code-blk code{font-family:"Courier New",Courier,monospace;font-size:11.5px;line-height:1.75;color:var(--ct);white-space:pre}
+.jk{color:#C792EA}.jf{color:#82AAFF}.js{color:#C3E88D}.jc{color:var(--cc);font-style:italic}.jn{color:#F78C6C}.jv{color:var(--sa)}.jp{color:#E06C75}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .sb{display:none}
+  .hero,.arch,.concepts,.g-sec{padding-left:28px;padding-right:28px}
+  .layer-hdr{padding-left:28px}
+  .file-hdr{padding-left:28px;padding-right:28px}
+  .file-body{grid-template-columns:1fr;padding:4px 28px 32px}
+  .y-pane{padding-right:0;margin-bottom:16px}
+  .x-pane{padding-left:0;border-left:none;border-top:1px solid var(--bd);padding-top:16px}
+  .arch-flow{flex-wrap:wrap;gap:10px}
+  .arch-sep{display:none}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{
+  .sb{display:none}
+  .file-body{grid-template-columns:1fr}
+  .y-pane{padding-right:0}
+  .x-pane{padding-left:0;border-left:none}
+}
+</style>
+
+<!-- SIDEBAR -->
+<nav class="sb" aria-label="Document navigation">
+  <div class="sb-logo">
+    <div class="sb-logo-t">K8s Fundamentals</div>
+    <div class="sb-logo-s">innovate-ecommerce</div>
+  </div>
+
+  <div class="sb-grp">
+    <span class="sb-grp-lbl">Overview</span>
+    <a class="sb-a" href="#arch"><span class="sb-a-fn">Architecture</span></a>
+    <a class="sb-a" href="#concepts"><span class="sb-a-fn">Core Concepts</span></a>
+  </div>
+
+  <div class="sb-grp">
+    <span class="sb-grp-lbl">Infrastructure Layer</span>
+    <a class="sb-a" href="#f01"><span class="sb-a-fn">01-namespace</span> <span class="sb-a-k">Namespace</span></a>
+    <a class="sb-a" href="#f02"><span class="sb-a-fn">02-secret</span> <span class="sb-a-k">Secret</span></a>
+    <a class="sb-a" href="#f03"><span class="sb-a-fn">03-configmap</span> <span class="sb-a-k">ConfigMap</span></a>
+  </div>
+
+  <div class="sb-grp">
+    <span class="sb-grp-lbl">Database Layer</span>
+    <a class="sb-a" href="#f04"><span class="sb-a-fn">04-headless-svc</span> <span class="sb-a-k">Service</span></a>
+    <a class="sb-a" href="#f05"><span class="sb-a-fn">05-clusterip-svc</span> <span class="sb-a-k">Service</span></a>
+    <a class="sb-a" href="#f06"><span class="sb-a-fn">06-statefulset</span> <span class="sb-a-k">StatefulSet</span></a>
+  </div>
+
+  <div class="sb-grp">
+    <span class="sb-grp-lbl">Backend Layer</span>
+    <a class="sb-a" href="#f07"><span class="sb-a-fn">07-deployment</span> <span class="sb-a-k">Deployment</span></a>
+    <a class="sb-a" href="#f08"><span class="sb-a-fn">08-service</span> <span class="sb-a-k">Service</span></a>
+  </div>
+
+  <div class="sb-grp">
+    <span class="sb-grp-lbl">Frontend Layer</span>
+    <a class="sb-a" href="#f09"><span class="sb-a-fn">09-deployment</span> <span class="sb-a-k">Deployment</span></a>
+    <a class="sb-a" href="#f10"><span class="sb-a-fn">10-service</span> <span class="sb-a-k">NodePort</span></a>
+  </div>
+
+  <div class="sb-grp">
+    <span class="sb-grp-lbl">Application Code</span>
+    <a class="sb-a" href="#app-be"><span class="sb-a-fn">backend/</span> <span class="sb-a-k">Node.js</span></a>
+    <a class="sb-a" href="#app-fe"><span class="sb-a-fn">frontend/</span> <span class="sb-a-k">PHP</span></a>
+  </div>
+
+  <div class="sb-grp">
+    <span class="sb-grp-lbl">Deployment</span>
+    <a class="sb-a" href="#deploy"><span class="sb-a-fn">Apply Guide</span></a>
+    <a class="sb-a" href="#kubectl"><span class="sb-a-fn">kubectl Cheatsheet</span></a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-ey">Personal Teaching Reference</div>
+    <h1>Kubernetes Fundamentals</h1>
+    <p class="hero-sub">A complete walkthrough of every file in this minikube project — what each one does, which Kubernetes concept it implements, and how it maps to real cloud infrastructure.</p>
+    <div class="hero-chips">
+      <span class="hero-chip">10 Manifest Files</span>
+      <span class="hero-chip">PHP Frontend</span>
+      <span class="hero-chip">Node.js Backend</span>
+      <span class="hero-chip">PostgreSQL 15</span>
+      <span class="hero-chip">minikube</span>
+    </div>
+  </section>
+
+  <!-- ARCHITECTURE DIAGRAM -->
+  <section class="arch" id="arch">
+    <div class="arch-lbl">Application Architecture</div>
+    <div class="arch-ns">
+      <div class="arch-ns-tag">namespace: innovate-ecommerce</div>
+      <div class="arch-flow">
+        <div class="arch-n ext">
+          <div class="an-name">Browser</div>
+          <div class="an-detail">External Traffic</div>
+        </div>
+        <div class="arch-sep">
+          <div class="arch-sep-ln"><div class="arch-sep-dash"></div><div class="arch-sep-tip"></div></div>
+          <div class="arch-sep-lbl">NodePort</div>
+        </div>
+        <div class="arch-n fe">
+          <div class="an-name">Frontend</div>
+          <div class="an-detail">PHP / Apache</div>
+          <div class="an-bdg">4 replicas</div>
+        </div>
+        <div class="arch-sep">
+          <div class="arch-sep-ln"><div class="arch-sep-dash"></div><div class="arch-sep-tip"></div></div>
+          <div class="arch-sep-lbl">ClusterIP :3000</div>
+        </div>
+        <div class="arch-n be">
+          <div class="an-name">Backend</div>
+          <div class="an-detail">Node.js / Express</div>
+          <div class="an-bdg">4 replicas</div>
+        </div>
+        <div class="arch-sep">
+          <div class="arch-sep-ln"><div class="arch-sep-dash"></div><div class="arch-sep-tip"></div></div>
+          <div class="arch-sep-lbl">ClusterIP :5432</div>
+        </div>
+        <div class="arch-n db">
+          <div class="an-name">PostgreSQL</div>
+          <div class="an-detail">postgres:15</div>
+          <div class="an-bdg">StatefulSet</div>
+        </div>
+      </div>
+      <div class="arch-config-row">
+        <div class="arch-config-n">ConfigMap: api-config</div>
+        <div class="arch-config-n">Secret: db-credentials</div>
+        <div class="arch-config-n">PVC: pgdata-postgres-db-0</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CORE CONCEPTS -->
+  <section class="concepts" id="concepts">
+    <div class="sec-ey">Before You Dive In</div>
+    <div class="sec-t">Core Kubernetes Concepts Used Here</div>
+    <div class="cpt-grid">
+      <div class="cpt-card">
+        <div class="cpt-name">Namespace</div>
+        <div class="cpt-desc">A virtual cluster inside the real cluster. Isolates resources so names don't collide.</div>
+      </div>
+      <div class="cpt-card">
+        <div class="cpt-name">Secret</div>
+        <div class="cpt-desc">Stores sensitive data (passwords, tokens) base64-encoded, separately from code.</div>
+      </div>
+      <div class="cpt-card">
+        <div class="cpt-name">ConfigMap</div>
+        <div class="cpt-desc">Stores non-sensitive config (ports, hostnames) as plain key-value pairs.</div>
+      </div>
+      <div class="cpt-card">
+        <div class="cpt-name">Deployment</div>
+        <div class="cpt-desc">Manages stateless app replicas. Handles rolling updates and self-healing automatically.</div>
+      </div>
+      <div class="cpt-card">
+        <div class="cpt-name">StatefulSet</div>
+        <div class="cpt-desc">Like a Deployment but for stateful apps. Gives each pod a stable identity and ordered startup.</div>
+      </div>
+      <div class="cpt-card">
+        <div class="cpt-name">Service</div>
+        <div class="cpt-desc">A stable network endpoint (DNS name + port) that routes traffic to a set of pods via labels.</div>
+      </div>
+      <div class="cpt-card">
+        <div class="cpt-name">PersistentVolumeClaim</div>
+        <div class="cpt-desc">A request for disk storage. K8s fulfills it with a PersistentVolume from the infrastructure.</div>
+      </div>
+      <div class="cpt-card">
+        <div class="cpt-name">Liveness Probe</div>
+        <div class="cpt-desc">K8s checks this to know if a container is alive. Failure → container is killed and restarted.</div>
+      </div>
+      <div class="cpt-card">
+        <div class="cpt-name">Readiness Probe</div>
+        <div class="cpt-desc">K8s checks this before sending traffic. Failure → pod is removed from the load balancer.</div>
+      </div>
+      <div class="cpt-card">
+        <div class="cpt-name">Labels &amp; Selectors</div>
+        <div class="cpt-desc">The glue of Kubernetes. Labels tag pods; selectors on Services and Deployments find them.</div>
+      </div>
+      <div class="cpt-card">
+        <div class="cpt-name">Resource Limits</div>
+        <div class="cpt-desc">CPU/memory guardrails per container. Requests = minimum needed. Limits = hard ceiling.</div>
+      </div>
+      <div class="cpt-card">
+        <div class="cpt-name">TopologySpread</div>
+        <div class="cpt-desc">Tells the scheduler to spread pods across nodes (or zones) for high availability.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ INFRASTRUCTURE LAYER ═══════════════ -->
+  <div class="layer-hdr" id="infra-layer">
+    <span>Layer 1</span>
+    <strong>Infrastructure</strong>
+    <span>— Namespace · Secret · ConfigMap</span>
+  </div>
+
+  <!-- FILE 01 -->
+  <section class="file-sec" id="f01">
+    <div class="file-hdr">
+      <div class="file-num">01</div>
+      <div class="file-hdr-txt">
+        <div class="file-name">01-namespace.yml</div>
+        <div class="bdg-row">
+          <span class="bdg bdg-kind">Namespace</span>
+          <span class="bdg bdg-cpt">Isolation</span>
+        </div>
+      </div>
+    </div>
+    <div class="file-body">
+      <div class="y-pane">
+        <div class="y-lbl">YAML</div>
+        <div class="y-blk"><pre><code><span class="yk">apiVersion</span>: <span class="yv">v1</span>
+<span class="yk">kind</span>: <span class="yv">Namespace</span>
+<span class="yk">metadata</span>:
+  <span class="yk">name</span>: <span class="yv">innovate-ecommerce</span></code></pre></div>
+      </div>
+      <div class="x-pane">
+        <div class="x-sec">
+          <h3>What it does</h3>
+          <p>Creates a <strong>virtual cluster</strong> called <code>innovate-ecommerce</code> inside your Kubernetes cluster. Every other resource in this project lives inside this namespace.</p>
+        </div>
+        <div class="x-sec">
+          <h3>Why it exists</h3>
+          <p>Without a namespace, everything lands in <code>default</code>. Namespaces let multiple apps, teams, or environments share the same cluster without interfering with each other. Resource names only need to be unique <em>within</em> a namespace — you could have a <code>postgres-db</code> in <code>innovate-ecommerce</code> and another in <code>shop-v2</code> with no conflict.</p>
+        </div>
+        <div class="x-sec">
+          <h3>Key fields</h3>
+          <table class="ft">
+            <tr><td>apiVersion: v1</td><td>Every manifest declares the API version. <code>v1</code> is the core Kubernetes API — the most stable group, used for pods, services, secrets, etc.</td></tr>
+            <tr><td>kind: Namespace</td><td>Tells Kubernetes what resource to create. The kind determines which schema rules apply.</td></tr>
+            <tr><td>metadata.name</td><td>The namespace identifier. Every other manifest in this project references it with <code>namespace: innovate-ecommerce</code>.</td></tr>
+          </table>
+        </div>
+        <div class="xb cloud">
+          <div class="xb-lbl">In the Cloud</div>
+          <p>In EKS, GKE, or AKS, namespaces are identical — same YAML, same concept. Common real-world patterns: one namespace per environment (<code>staging</code>, <code>production</code>), or one per team. You can attach <strong>ResourceQuotas</strong> to a namespace to cap CPU/memory usage per team, and <strong>NetworkPolicies</strong> to control which namespaces can talk to each other.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILE 02 -->
+  <section class="file-sec" id="f02">
+    <div class="file-hdr">
+      <div class="file-num">02</div>
+      <div class="file-hdr-txt">
+        <div class="file-name">02-secret.yml</div>
+        <div class="bdg-row">
+          <span class="bdg bdg-kind">Secret</span>
+          <span class="bdg bdg-cpt">Configuration</span>
+          <span class="bdg bdg-cpt">Security</span>
+        </div>
+      </div>
+    </div>
+    <div class="file-body">
+      <div class="y-pane">
+        <div class="y-lbl">YAML</div>
+        <div class="y-blk"><pre><code><span class="yk">apiVersion</span>: <span class="yv">v1</span>
+<span class="yk">kind</span>: <span class="yv">Secret</span>
+<span class="yk">metadata</span>:
+  <span class="yk">name</span>: <span class="yv">db-credentials</span>
+  <span class="yk">namespace</span>: <span class="yv">innovate-ecommerce</span>
+<span class="yk">type</span>: <span class="yv">Opaque</span>
+<span class="yk">data</span>:
+  <span class="yk">POSTGRES_USER</span>: <span class="yv">cG9zdGdyZXM=</span>  <span class="yc">#postgres</span>
+  <span class="yk">POSTGRES_PASSWORD</span>: <span class="yv">c2VjcmV0</span>  <span class="yc">#secret</span>
+  <span class="yk">POSTGRES_DB</span>: <span class="yv">ZWNvbW1lcmNl</span>  <span class="yc">#ecommerce</span></code></pre></div>
+      </div>
+      <div class="x-pane">
+        <div class="x-sec">
+          <h3>What it does</h3>
+          <p>Stores the database credentials separately from your application code. Other resources can reference specific keys from this Secret and Kubernetes injects them as environment variables into containers at runtime.</p>
+        </div>
+        <div class="x-sec">
+          <h3>Why it exists</h3>
+          <p>Hard-coding passwords in Dockerfiles or application code creates security risks and makes rotation painful. Secrets decouple credentials from code — you can update a password without rebuilding images or changing deployments.</p>
+        </div>
+        <div class="x-sec">
+          <h3>Key fields</h3>
+          <table class="ft">
+            <tr><td>type: Opaque</td><td>The generic Secret type. K8s also has built-in types like <code>kubernetes.io/tls</code> for certificates or <code>kubernetes.io/dockerconfigjson</code> for registry auth. Opaque means "user-defined, arbitrary data."</td></tr>
+            <tr><td>data:</td><td>All values here <strong>must be base64-encoded</strong>. Generate with: <code>echo -n "secret" | base64</code>. The decoded value is what the container receives.</td></tr>
+            <tr><td>POSTGRES_USER, etc.</td><td>The keys are the env var names that other manifests reference with <code>secretKeyRef.key: POSTGRES_USER</code>.</td></tr>
+          </table>
+        </div>
+        <div class="xb warn">
+          <div class="xb-lbl">Critical Gotcha</div>
+          <p><strong>base64 is encoding, not encryption.</strong> Anyone with <code>kubectl get secret db-credentials -o yaml</code> access can trivially decode all values. In this project it's a minikube teaching setup — fine. In production, never commit Secret YAMLs to git with real passwords. The file is shown here for learning purposes only.</p>
+        </div>
+        <div class="xb cloud">
+          <div class="xb-lbl">In the Cloud</div>
+          <p>Real production setups use the <strong>External Secrets Operator</strong>: it connects K8s to AWS Parameter Store / Secrets Manager, GCP Secret Manager, or HashiCorp Vault. Your manifest just says "pull the secret named X from the vault" — actual values never live in YAML files or git. Secrets are also encrypted at rest in managed K8s clusters (EKS, GKE) via KMS integration.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILE 03 -->
+  <section class="file-sec" id="f03">
+    <div class="file-hdr">
+      <div class="file-num">03</div>
+      <div class="file-hdr-txt">
+        <div class="file-name">03-configmap.yml</div>
+        <div class="bdg-row">
+          <span class="bdg bdg-kind">ConfigMap</span>
+          <span class="bdg bdg-cpt">Configuration</span>
+        </div>
+      </div>
+    </div>
+    <div class="file-body">
+      <div class="y-pane">
+        <div class="y-lbl">YAML</div>
+        <div class="y-blk"><pre><code><span class="yk">apiVersion</span>: <span class="yv">v1</span>
+<span class="yk">kind</span>: <span class="yv">ConfigMap</span>
+<span class="yk">metadata</span>:
+  <span class="yk">name</span>: <span class="yv">api-config</span>
+  <span class="yk">namespace</span>: <span class="yv">innovate-ecommerce</span>
+<span class="yk">data</span>:
+  <span class="yk">PORT</span>: <span class="yv">"3000"</span>
+  <span class="yk">DATABASE_HOST</span>: <span class="yv">postgres-db-service</span>
+  <span class="yk">DATABASE_PORT</span>: <span class="yv">"5432"</span></code></pre></div>
+      </div>
+      <div class="x-pane">
+        <div class="x-sec">
+          <h3>What it does</h3>
+          <p>Stores non-sensitive configuration as plain text key-value pairs. The backend deployment mounts this entire ConfigMap as environment variables using <code>envFrom</code>, so every key becomes a variable available inside the container.</p>
+        </div>
+        <div class="x-sec">
+          <h3>Why it exists</h3>
+          <p>The same Docker image can run in dev, staging, and production with different ConfigMaps — no need to rebuild the image when a hostname or port changes. ConfigMap = config that changes per environment; Secret = config that is sensitive.</p>
+        </div>
+        <div class="x-sec">
+          <h3>Key fields</h3>
+          <table class="ft">
+            <tr><td>data:</td><td>Plain text — no encoding required. Numbers must be quoted (<code>"3000"</code>) because YAML would otherwise parse them as integers, but K8s expects strings.</td></tr>
+            <tr><td>DATABASE_HOST</td><td>Points to <code>postgres-db-service</code> — the exact name of the ClusterIP service in file 05. Kubernetes DNS resolves this name to the service's virtual IP automatically.</td></tr>
+            <tr><td>PORT</td><td>The port the backend Express server will listen on. Injected via envFrom, so <code>process.env.PORT</code> returns <code>"3000"</code> inside the container.</td></tr>
+          </table>
+        </div>
+        <div class="xb info">
+          <div class="xb-lbl">Note: Env var naming</div>
+          <p>The backend's <code>server.js</code> reads <code>process.env.PGHOST</code>, not <code>DATABASE_HOST</code>. So in this project, <code>DATABASE_HOST</code> is injected but not actually consumed — the server falls back to its hardcoded default <code>'postgres-db-service'</code>. Both resolve to the same address, so it works, but it's a naming inconsistency worth knowing. In a real app, align the ConfigMap keys with what the code reads.</p>
+        </div>
+        <div class="xb cloud">
+          <div class="xb-lbl">In the Cloud</div>
+          <p>ConfigMaps are identical across cloud providers — same YAML. With Helm (the standard deployment tool), ConfigMap values come from <code>values.yaml</code> files per environment. Some teams replace ConfigMaps entirely with cloud-native config services (AWS AppConfig, GCP Runtime Config), but plain ConfigMaps remain the most portable approach.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ DATABASE LAYER ═══════════════ -->
+  <div class="layer-hdr db" id="db-layer">
+    <span>Layer 2</span>
+    <strong>Database</strong>
+    <span>— Two Services + StatefulSet (files 04 – 06)</span>
+  </div>
+
+  <!-- FILE 04 -->
+  <section class="file-sec" id="f04">
+    <div class="file-hdr">
+      <div class="file-num">04</div>
+      <div class="file-hdr-txt">
+        <div class="file-name">04-postgres-service-headless.yml</div>
+        <div class="bdg-row">
+          <span class="bdg bdg-kind">Service</span>
+          <span class="bdg bdg-cpt">Headless</span>
+          <span class="bdg bdg-cpt">StatefulSet DNS</span>
+        </div>
+      </div>
+    </div>
+    <div class="file-body">
+      <div class="y-pane">
+        <div class="y-lbl">YAML</div>
+        <div class="y-blk"><pre><code><span class="yk">apiVersion</span>: <span class="yv">v1</span>
+<span class="yk">kind</span>: <span class="yv">Service</span>
+<span class="yk">metadata</span>:
+  <span class="yk">name</span>: <span class="yv">postgres-db-headless</span>
+  <span class="yk">namespace</span>: <span class="yv">innovate-ecommerce</span>
+<span class="yk">spec</span>:
+  <span class="yk">clusterIP</span>: <span class="yh">None</span>
+  <span class="yk">selector</span>:
+    <span class="yk">app</span>: <span class="yv">postgres-db</span>
+  <span class="yk">ports</span>:
+  - <span class="yk">port</span>: <span class="yn">5432</span>
+    <span class="yk">targetPort</span>: <span class="yn">5432</span></code></pre></div>
+      </div>
+      <div class="x-pane">
+        <div class="x-sec">
+          <h3>What it does</h3>
+          <p>Creates a <strong>headless service</strong> — a service with no virtual IP (<code>clusterIP: None</code>). Instead of load-balancing, Kubernetes uses it purely for DNS: each StatefulSet pod gets a unique DNS entry like <code>postgres-db-0.postgres-db-headless.innovate-ecommerce.svc.cluster.local</code>.</p>
+        </div>
+        <div class="x-sec">
+          <h3>Why it exists — and why two Postgres services?</h3>
+          <p>StatefulSets <em>require</em> a headless service, declared in their <code>serviceName</code> field. This is how Kubernetes assigns each pod a stable, predictable identity. Without it, pods would get random names and the StatefulSet can't guarantee ordered operations.</p>
+          <p style="margin-top:6px">You need <em>two</em> services for Postgres: this headless one (for stable pod identity) and the ClusterIP in file 05 (for application connection strings). They serve different purposes.</p>
+        </div>
+        <div class="x-sec">
+          <h3>Key fields</h3>
+          <table class="ft">
+            <tr><td>clusterIP: None</td><td>This single line is what makes the service headless. Without a virtual IP, DNS queries return the actual pod IPs directly instead of a load-balancer IP.</td></tr>
+            <tr><td>selector.app: postgres-db</td><td>Matches pods that have the label <code>app: postgres-db</code>. The StatefulSet template defines this label on its pods.</td></tr>
+          </table>
+        </div>
+        <div class="xb cloud">
+          <div class="xb-lbl">In the Cloud</div>
+          <p>Same concept applies in EKS/GKE/AKS. The headless service pattern is needed any time you run a StatefulSet — Kafka, Cassandra, Zookeeper, Redis Cluster, etc. In practice, teams running databases in cloud Kubernetes still need both services, just like here. More commonly, the database is moved out entirely to a managed service (see file 06).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILE 05 -->
+  <section class="file-sec" id="f05">
+    <div class="file-hdr">
+      <div class="file-num">05</div>
+      <div class="file-hdr-txt">
+        <div class="file-name">05-postgres-service-clusterip.yml</div>
+        <div class="bdg-row">
+          <span class="bdg bdg-kind">Service</span>
+          <span class="bdg bdg-cpt">ClusterIP</span>
+          <span class="bdg bdg-cpt">Internal DNS</span>
+        </div>
+      </div>
+    </div>
+    <div class="file-body">
+      <div class="y-pane">
+        <div class="y-lbl">YAML</div>
+        <div class="y-blk"><pre><code><span class="yk">apiVersion</span>: <span class="yv">v1</span>
+<span class="yk">kind</span>: <span class="yv">Service</span>
+<span class="yk">metadata</span>:
+  <span class="yk">name</span>: <span class="yv">postgres-db-service</span>
+  <span class="yk">namespace</span>: <span class="yv">innovate-ecommerce</span>
+<span class="yk">spec</span>:
+  <span class="yk">selector</span>:
+    <span class="yk">app</span>: <span class="yv">postgres-db</span>
+  <span class="yk">ports</span>:
+  - <span class="yk">port</span>: <span class="yn">5432</span>
+    <span class="yk">targetPort</span>: <span class="yn">5432</span></code></pre></div>
+      </div>
+      <div class="x-pane">
+        <div class="x-sec">
+          <h3>What it does</h3>
+          <p>Creates a stable virtual IP and DNS name (<code>postgres-db-service</code>) that routes traffic to whichever Postgres pod is running. This is a standard <strong>ClusterIP service</strong> — internal-only, not reachable from outside the cluster.</p>
+        </div>
+        <div class="x-sec">
+          <h3>Why it exists</h3>
+          <p>The backend's <code>server.js</code> connects to <code>postgres-db-service</code> as the hostname. Services decouple the consumer (backend) from the exact pod location. If the Postgres pod restarts on a different node, the service still routes correctly — the backend never needs to know or care.</p>
+          <p style="margin-top:6px">Notice there's no <code>type:</code> field here. When omitted, Kubernetes defaults to <code>ClusterIP</code> — a virtual IP that exists only within the cluster's private network.</p>
+        </div>
+        <div class="x-sec">
+          <h3>Key fields</h3>
+          <table class="ft">
+            <tr><td>name: postgres-db-service</td><td>This exact string becomes the DNS hostname. From any pod in the same namespace: <code>psql -h postgres-db-service</code> works. K8s DNS auto-creates the entry.</td></tr>
+            <tr><td>selector.app: postgres-db</td><td>K8s continuously watches for pods with this label and keeps the service's endpoint list updated. This is the label+selector wiring that connects all Kubernetes resources.</td></tr>
+            <tr><td>port / targetPort</td><td><code>port</code> is what callers connect to; <code>targetPort</code> is the container's actual port. Here they're both 5432, but they can differ (e.g. service on 80, container on 8080).</td></tr>
+          </table>
+        </div>
+        <div class="xb cloud">
+          <div class="xb-lbl">In the Cloud</div>
+          <p>ClusterIP services are identical across cloud providers. In production, this entire layer (files 04–06) is often replaced by a <strong>managed database</strong> — AWS RDS, GCP Cloud SQL, Azure Database for PostgreSQL. The managed DB gives you automatic failover, backups, and scaling. Your backend then connects to the managed DB's hostname directly — no ClusterIP service needed for the DB itself.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILE 06 -->
+  <section class="file-sec" id="f06">
+    <div class="file-hdr">
+      <div class="file-num">06</div>
+      <div class="file-hdr-txt">
+        <div class="file-name">06-postgres-statefulset.yml</div>
+        <div class="bdg-row">
+          <span class="bdg bdg-kind">StatefulSet</span>
+          <span class="bdg bdg-cpt">PVC</span>
+          <span class="bdg bdg-cpt">Health Probes</span>
+          <span class="bdg bdg-cpt">Resource Limits</span>
+        </div>
+      </div>
+    </div>
+    <div class="file-body">
+      <div class="y-pane">
+        <div class="y-lbl">YAML</div>
+        <div class="y-blk"><pre><code><span class="yk">apiVersion</span>: <span class="yv">apps/v1</span>
+<span class="yk">kind</span>: <span class="yv">StatefulSet</span>
+<span class="yk">metadata</span>:
+  <span class="yk">name</span>: <span class="yv">postgres-db</span>
+  <span class="yk">namespace</span>: <span class="yv">innovate-ecommerce</span>
+<span class="yk">spec</span>:
+  <span class="yk">serviceName</span>: <span class="yv">postgres-db-headless</span>
+  <span class="yk">replicas</span>: <span class="yn">1</span>
+  <span class="yk">selector</span>:
+    <span class="yk">matchLabels</span>:
+      <span class="yk">app</span>: <span class="yv">postgres-db</span>
+  <span class="yk">template</span>:
+    <span class="yk">metadata</span>:
+      <span class="yk">labels</span>:
+        <span class="yk">app</span>: <span class="yv">postgres-db</span>
+    <span class="yk">spec</span>:
+      <span class="yk">containers</span>:
+      - <span class="yk">name</span>: <span class="yv">postgres</span>
+        <span class="yk">image</span>: <span class="yv">postgres:15</span>
+        <span class="yk">ports</span>:
+        - <span class="yk">containerPort</span>: <span class="yn">5432</span>
+        <span class="yk">env</span>:
+        - <span class="yk">name</span>: <span class="yv">POSTGRES_USER</span>
+          <span class="yk">valueFrom</span>:
+            <span class="yk">secretKeyRef</span>:
+              <span class="yk">name</span>: <span class="yv">db-credentials</span>
+              <span class="yk">key</span>: <span class="yv">POSTGRES_USER</span>
+        - <span class="yk">name</span>: <span class="yv">POSTGRES_PASSWORD</span>
+          <span class="yk">valueFrom</span>:
+            <span class="yk">secretKeyRef</span>:
+              <span class="yk">name</span>: <span class="yv">db-credentials</span>
+              <span class="yk">key</span>: <span class="yv">POSTGRES_PASSWORD</span>
+        - <span class="yk">name</span>: <span class="yv">POSTGRES_DB</span>
+          <span class="yk">valueFrom</span>:
+            <span class="yk">secretKeyRef</span>:
+              <span class="yk">name</span>: <span class="yv">db-credentials</span>
+              <span class="yk">key</span>: <span class="yv">POSTGRES_DB</span>
+        <span class="yk">volumeMounts</span>:
+        - <span class="yk">name</span>: <span class="yv">pgdata</span>
+          <span class="yk">mountPath</span>: <span class="yv">/var/lib/postgresql/data</span>
+        <span class="yk">resources</span>:
+          <span class="yk">requests</span>:
+            <span class="yk">memory</span>: <span class="yv">"512Mi"</span>
+            <span class="yk">cpu</span>: <span class="yv">"250m"</span>
+          <span class="yk">limits</span>:
+            <span class="yk">memory</span>: <span class="yv">"1Gi"</span>
+            <span class="yk">cpu</span>: <span class="yv">"500m"</span>
+        <span class="yk">livenessProbe</span>:
+          <span class="yk">exec</span>:
+            <span class="yk">command</span>: <span class="yv">["pg_isready"]</span>
+          <span class="yk">initialDelaySeconds</span>: <span class="yn">30</span>
+          <span class="yk">periodSeconds</span>: <span class="yn">10</span>
+        <span class="yk">readinessProbe</span>:
+          <span class="yk">exec</span>:
+            <span class="yk">command</span>: <span class="yv">["pg_isready"]</span>
+          <span class="yk">initialDelaySeconds</span>: <span class="yn">10</span>
+          <span class="yk">periodSeconds</span>: <span class="yn">5</span>
+  <span class="yk">volumeClaimTemplates</span>:
+  - <span class="yk">metadata</span>:
+      <span class="yk">name</span>: <span class="yv">pgdata</span>
+    <span class="yk">spec</span>:
+      <span class="yk">accessModes</span>: <span class="yv">["ReadWriteOnce"]</span>
+      <span class="yk">resources</span>:
+        <span class="yk">requests</span>:
+          <span class="yk">storage</span>: <span class="yv">1Gi</span></code></pre></div>
+      </div>
+      <div class="x-pane">
+        <div class="x-sec">
+          <h3>What it does</h3>
+          <p>Runs PostgreSQL as a <strong>StatefulSet</strong> — the right tool for databases and any app that needs a stable identity across restarts. Manages one pod (<code>postgres-db-0</code>), persistent disk, secrets injection, and health monitoring.</p>
+        </div>
+        <div class="x-sec">
+          <h3>StatefulSet vs Deployment</h3>
+          <ul>
+            <li><strong>Deployment</strong> pods get random names (<code>backend-api-xyz-abc</code>), can be replaced in any order, and share nothing between replicas.</li>
+            <li><strong>StatefulSet</strong> pods get stable ordinal names (<code>postgres-db-0</code>, <code>postgres-db-1</code>…), start and stop in order, and each gets its own dedicated PersistentVolume.</li>
+          </ul>
+          <p style="margin-top:6px">Databases need stable identity because data must stay with a specific pod instance. <code>replicas: 1</code> here — PostgreSQL HA (high availability with replicas) is complex and usually handled by cloud-managed DBs.</p>
+        </div>
+        <div class="x-sec">
+          <h3>Key fields</h3>
+          <table class="ft">
+            <tr><td>serviceName</td><td>Links to the headless service (file 04). Required by all StatefulSets — this is how K8s constructs the stable DNS names for each pod.</td></tr>
+            <tr><td>selector.matchLabels</td><td>The StatefulSet manages pods that carry this label. The pod template also sets this label — they must match exactly or K8s rejects the manifest.</td></tr>
+            <tr><td>secretKeyRef</td><td>Pulls individual keys from the Secret (file 02) and injects them as env vars. The <code>postgres:15</code> image reads <code>POSTGRES_USER</code>, <code>POSTGRES_PASSWORD</code>, <code>POSTGRES_DB</code> on first boot to initialize the database.</td></tr>
+            <tr><td>resources.requests</td><td>The minimum guaranteed resources. The scheduler uses this to find a node with enough capacity. 250m CPU = 0.25 of one CPU core.</td></tr>
+            <tr><td>resources.limits</td><td>Hard ceiling. The container is OOMKilled if it exceeds memory, or throttled if it exceeds CPU. requests ≤ limits always.</td></tr>
+            <tr><td>livenessProbe</td><td>Runs <code>pg_isready</code> every 10s. If it fails, K8s restarts the container. Starts checking after 30s (DB needs time to initialize).</td></tr>
+            <tr><td>readinessProbe</td><td>Same check but starts after 10s. While failing, the pod is removed from all service endpoints — no traffic until Postgres is genuinely accepting connections.</td></tr>
+            <tr><td>volumeClaimTemplates</td><td>The unique feature of StatefulSets. Each pod gets its own PVC automatically named <code>pgdata-postgres-db-0</code>. Delete and recreate the pod — same disk reattaches.</td></tr>
+            <tr><td>mountPath</td><td><code>/var/lib/postgresql/data</code> is where Postgres writes its data files. The PVC is mounted here so data survives pod restarts.</td></tr>
+          </table>
+        </div>
+        <div class="xb cloud">
+          <div class="xb-lbl">In the Cloud</div>
+          <p>In production, replace the entire DB layer (files 04–06) with a <strong>managed database</strong>. AWS RDS, GCP Cloud SQL, or Azure Database for PostgreSQL give you automatic backups, failover, read replicas, and zero maintenance. Your backend just points to the managed endpoint. The PVC <code>accessMode: ReadWriteOnce</code> maps to cloud storage classes like <code>gp3</code> (AWS) or <code>pd-ssd</code> (GCP) when running real K8s.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ BACKEND LAYER ═══════════════ -->
+  <div class="layer-hdr be" id="be-layer">
+    <span>Layer 3</span>
+    <strong>Backend</strong>
+    <span>— Deployment + ClusterIP Service (files 07 – 08)</span>
+  </div>
+
+  <!-- FILE 07 -->
+  <section class="file-sec" id="f07">
+    <div class="file-hdr">
+      <div class="file-num">07</div>
+      <div class="file-hdr-txt">
+        <div class="file-name">07-backend-deployment.yml</div>
+        <div class="bdg-row">
+          <span class="bdg bdg-kind">Deployment</span>
+          <span class="bdg bdg-cpt">envFrom</span>
+          <span class="bdg bdg-cpt">Health Probes</span>
+          <span class="bdg bdg-cpt">TopologySpread</span>
+          <span class="bdg bdg-mink">imagePullPolicy: Never</span>
+        </div>
+      </div>
+    </div>
+    <div class="file-body">
+      <div class="y-pane">
+        <div class="y-lbl">YAML</div>
+        <div class="y-blk"><pre><code><span class="yk">apiVersion</span>: <span class="yv">apps/v1</span>
+<span class="yk">kind</span>: <span class="yv">Deployment</span>
+<span class="yk">metadata</span>:
+  <span class="yk">name</span>: <span class="yv">backend-api</span>
+  <span class="yk">namespace</span>: <span class="yv">innovate-ecommerce</span>
+<span class="yk">spec</span>:
+  <span class="yk">replicas</span>: <span class="yn">4</span>
+  <span class="yk">selector</span>:
+    <span class="yk">matchLabels</span>:
+      <span class="yk">app</span>: <span class="yv">backend-api</span>
+  <span class="yk">template</span>:
+    <span class="yk">metadata</span>:
+      <span class="yk">labels</span>:
+        <span class="yk">app</span>: <span class="yv">backend-api</span>
+    <span class="yk">spec</span>:
+      <span class="yk">containers</span>:
+      - <span class="yk">name</span>: <span class="yv">backend</span>
+        <span class="yk">image</span>: <span class="yv">backend-app</span>
+        <span class="yk">imagePullPolicy</span>: <span class="yh">Never</span>
+        <span class="yk">ports</span>:
+        - <span class="yk">containerPort</span>: <span class="yn">3000</span>
+        <span class="yk">envFrom</span>:
+        - <span class="yk">configMapRef</span>:
+            <span class="yk">name</span>: <span class="yv">api-config</span>
+        <span class="yk">env</span>:
+        - <span class="yk">name</span>: <span class="yv">POSTGRES_USER</span>
+          <span class="yk">valueFrom</span>:
+            <span class="yk">secretKeyRef</span>:
+              <span class="yk">name</span>: <span class="yv">db-credentials</span>
+              <span class="yk">key</span>: <span class="yv">POSTGRES_USER</span>
+        - <span class="yk">name</span>: <span class="yv">POSTGRES_PASSWORD</span>
+          <span class="yk">valueFrom</span>:
+            <span class="yk">secretKeyRef</span>:
+              <span class="yk">name</span>: <span class="yv">db-credentials</span>
+              <span class="yk">key</span>: <span class="yv">POSTGRES_PASSWORD</span>
+        - <span class="yk">name</span>: <span class="yv">POSTGRES_DB</span>
+          <span class="yk">valueFrom</span>:
+            <span class="yk">secretKeyRef</span>:
+              <span class="yk">name</span>: <span class="yv">db-credentials</span>
+              <span class="yk">key</span>: <span class="yv">POSTGRES_DB</span>
+        <span class="yk">resources</span>:
+          <span class="yk">requests</span>:
+            <span class="yk">memory</span>: <span class="yv">"256Mi"</span>
+            <span class="yk">cpu</span>: <span class="yv">"200m"</span>
+          <span class="yk">limits</span>:
+            <span class="yk">memory</span>: <span class="yv">"512Mi"</span>
+            <span class="yk">cpu</span>: <span class="yv">"400m"</span>
+        <span class="yk">livenessProbe</span>:
+          <span class="yk">httpGet</span>:
+            <span class="yk">path</span>: <span class="yv">/healthz</span>
+            <span class="yk">port</span>: <span class="yn">3000</span>
+          <span class="yk">initialDelaySeconds</span>: <span class="yn">15</span>
+          <span class="yk">periodSeconds</span>: <span class="yn">10</span>
+        <span class="yk">readinessProbe</span>:
+          <span class="yk">httpGet</span>:
+            <span class="yk">path</span>: <span class="yv">/readyz</span>
+            <span class="yk">port</span>: <span class="yn">3000</span>
+          <span class="yk">initialDelaySeconds</span>: <span class="yn">5</span>
+          <span class="yk">periodSeconds</span>: <span class="yn">5</span>
+      <span class="yk">topologySpreadConstraints</span>:
+      - <span class="yk">maxSkew</span>: <span class="yn">1</span>
+        <span class="yk">topologyKey</span>: <span class="yv">kubernetes.io/hostname</span>
+        <span class="yk">whenUnsatisfiable</span>: <span class="yv">ScheduleAnyway</span>
+        <span class="yk">labelSelector</span>:
+          <span class="yk">matchLabels</span>:
+            <span class="yk">app</span>: <span class="yv">backend-api</span></code></pre></div>
+      </div>
+      <div class="x-pane">
+        <div class="x-sec">
+          <h3>What it does</h3>
+          <p>Runs 4 identical copies of the Node.js API, managed by a <strong>Deployment</strong>. If any pod crashes, the Deployment controller automatically replaces it. If you update the image, it does a rolling update — replacing pods one-by-one with zero downtime.</p>
+        </div>
+        <div class="x-sec">
+          <h3>The labels and selectors chain</h3>
+          <p>The Deployment's <code>selector.matchLabels</code> must exactly match the <code>template.metadata.labels</code> it creates. This is how K8s knows which pods belong to which Deployment. The Service in file 08 uses the same label to know where to send traffic.</p>
+        </div>
+        <div class="x-sec">
+          <h3>Key fields</h3>
+          <table class="ft">
+            <tr><td>replicas: 4</td><td>The Deployment ensures exactly 4 pods are running at all times. Scale up: change to 8 and <code>kubectl apply</code> again. Scale down: change to 2. No downtime.</td></tr>
+            <tr><td>imagePullPolicy: Never</td><td><strong>minikube-specific.</strong> Tells K8s to never try to pull from a registry — use whatever image already exists in the local Docker daemon. You build the image inside minikube's Docker context first. Remove this in cloud.</td></tr>
+            <tr><td>envFrom: configMapRef</td><td>Injects <em>all keys</em> from the <code>api-config</code> ConfigMap as environment variables. Cleaner than listing each key individually when you want the whole ConfigMap.</td></tr>
+            <tr><td>env: secretKeyRef</td><td>Injects <em>specific keys</em> from the Secret. Unlike <code>envFrom</code>, this is selective — pull only the keys you need, with whatever env var name you choose.</td></tr>
+            <tr><td>livenessProbe /healthz</td><td>HTTP GET to port 3000/healthz every 10s. The endpoint just returns 200 OK — it only checks if the Node.js process is alive. Failure → container restart.</td></tr>
+            <tr><td>readinessProbe /readyz</td><td>HTTP GET to port 3000/readyz every 5s. This endpoint actually queries the database (<code>SELECT 1</code>). Failure → pod removed from load balancer. This prevents routing traffic to a backend that can't reach the DB.</td></tr>
+            <tr><td>topologySpreadConstraints</td><td>Tells the scheduler: spread these pods across nodes, with no more than 1 pod difference per node (<code>maxSkew: 1</code>). <code>ScheduleAnyway</code> = soft constraint (schedule even if it can't satisfy perfectly). Prevents all 4 pods landing on 1 node.</td></tr>
+          </table>
+        </div>
+        <div class="xb cloud">
+          <div class="xb-lbl">In the Cloud</div>
+          <p>Remove <code>imagePullPolicy: Never</code> and set <code>image</code> to a full registry path like <code>123456789.dkr.ecr.us-east-1.amazonaws.com/backend-app:v1.2.3</code>. K8s will pull from ECR (AWS), GCR/Artifact Registry (GCP), or ACR (Azure). Change <code>topologyKey</code> from <code>kubernetes.io/hostname</code> to <code>topology.kubernetes.io/zone</code> to spread pods across availability zones instead of just nodes — this is true high availability.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILE 08 -->
+  <section class="file-sec" id="f08">
+    <div class="file-hdr">
+      <div class="file-num">08</div>
+      <div class="file-hdr-txt">
+        <div class="file-name">08-backend-service.yml</div>
+        <div class="bdg-row">
+          <span class="bdg bdg-kind">Service</span>
+          <span class="bdg bdg-cpt">ClusterIP</span>
+          <span class="bdg bdg-cpt">Internal Load Balancer</span>
+        </div>
+      </div>
+    </div>
+    <div class="file-body">
+      <div class="y-pane">
+        <div class="y-lbl">YAML</div>
+        <div class="y-blk"><pre><code><span class="yk">apiVersion</span>: <span class="yv">v1</span>
+<span class="yk">kind</span>: <span class="yv">Service</span>
+<span class="yk">metadata</span>:
+  <span class="yk">name</span>: <span class="yv">backend-api-service</span>
+  <span class="yk">namespace</span>: <span class="yv">innovate-ecommerce</span>
+<span class="yk">spec</span>:
+  <span class="yk">selector</span>:
+    <span class="yk">app</span>: <span class="yv">backend-api</span>
+  <span class="yk">ports</span>:
+  - <span class="yk">port</span>: <span class="yn">3000</span>
+    <span class="yk">targetPort</span>: <span class="yn">3000</span></code></pre></div>
+      </div>
+      <div class="x-pane">
+        <div class="x-sec">
+          <h3>What it does</h3>
+          <p>Creates a stable internal DNS name and load balancer for the 4 backend pods. Any pod in the cluster can reach the API at <code>http://backend-api-service:3000</code>. K8s distributes requests across all healthy, ready backend pods in round-robin.</p>
+        </div>
+        <div class="x-sec">
+          <h3>The name matters</h3>
+          <p>The service name <code>backend-api-service</code> is hardcoded in the frontend deployment (file 09) as <code>API_URL: http://backend-api-service:3000</code>. If you rename this service, you must update the frontend env var too. This name-based wiring is how microservices find each other in Kubernetes.</p>
+        </div>
+        <div class="x-sec">
+          <h3>Key fields</h3>
+          <table class="ft">
+            <tr><td>selector.app: backend-api</td><td>Matches pods from the Deployment in file 07. K8s dynamically updates the endpoint list as pods come and go — a pod that fails its readiness probe is automatically removed from routing.</td></tr>
+            <tr><td>port: 3000</td><td>The port the service listens on. Callers use this port. Since both port and targetPort are 3000, the service just forwards directly to the container port.</td></tr>
+          </table>
+        </div>
+        <div class="xb cloud">
+          <div class="xb-lbl">In the Cloud</div>
+          <p>Same ClusterIP type works identically on all cloud K8s. For internal service-to-service communication this is always the right choice. If you needed the backend to be accessible from outside the cluster (e.g., for a mobile app), you'd add <code>type: LoadBalancer</code> — the cloud would provision a real load balancer with a public IP automatically.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ FRONTEND LAYER ═══════════════ -->
+  <div class="layer-hdr fe" id="fe-layer">
+    <span>Layer 4</span>
+    <strong>Frontend</strong>
+    <span>— Deployment + NodePort Service (files 09 – 10)</span>
+  </div>
+
+  <!-- FILE 09 -->
+  <section class="file-sec" id="f09">
+    <div class="file-hdr">
+      <div class="file-num">09</div>
+      <div class="file-hdr-txt">
+        <div class="file-name">09-frontend-deployment.yml</div>
+        <div class="bdg-row">
+          <span class="bdg bdg-kind">Deployment</span>
+          <span class="bdg bdg-cpt">TopologySpread</span>
+          <span class="bdg bdg-mink">imagePullPolicy: Never</span>
+        </div>
+      </div>
+    </div>
+    <div class="file-body">
+      <div class="y-pane">
+        <div class="y-lbl">YAML</div>
+        <div class="y-blk"><pre><code><span class="yk">apiVersion</span>: <span class="yv">apps/v1</span>
+<span class="yk">kind</span>: <span class="yv">Deployment</span>
+<span class="yk">metadata</span>:
+  <span class="yk">name</span>: <span class="yv">frontend-app</span>
+  <span class="yk">namespace</span>: <span class="yv">innovate-ecommerce</span>
+<span class="yk">spec</span>:
+  <span class="yk">replicas</span>: <span class="yn">4</span>
+  <span class="yk">selector</span>:
+    <span class="yk">matchLabels</span>:
+      <span class="yk">app</span>: <span class="yv">frontend-app</span>
+  <span class="yk">template</span>:
+    <span class="yk">metadata</span>:
+      <span class="yk">labels</span>:
+        <span class="yk">app</span>: <span class="yv">frontend-app</span>
+    <span class="yk">spec</span>:
+      <span class="yk">containers</span>:
+      - <span class="yk">name</span>: <span class="yv">php</span>
+        <span class="yk">image</span>: <span class="yv">frontend-app</span>
+        <span class="yk">imagePullPolicy</span>: <span class="yh">Never</span>
+        <span class="yk">ports</span>:
+        - <span class="yk">containerPort</span>: <span class="yn">80</span>
+        <span class="yk">env</span>:
+        - <span class="yk">name</span>: <span class="yv">API_URL</span>
+          <span class="yk">value</span>: <span class="yv">http://backend-api-service:3000</span>
+        <span class="yk">resources</span>:
+          <span class="yk">requests</span>:
+            <span class="yk">memory</span>: <span class="yv">"128Mi"</span>
+            <span class="yk">cpu</span>: <span class="yv">"100m"</span>
+          <span class="yk">limits</span>:
+            <span class="yk">memory</span>: <span class="yv">"256Mi"</span>
+            <span class="yk">cpu</span>: <span class="yv">"200m"</span>
+        <span class="yk">livenessProbe</span>:
+          <span class="yk">httpGet</span>:
+            <span class="yk">path</span>: <span class="yv">/</span>
+            <span class="yk">port</span>: <span class="yn">80</span>
+          <span class="yk">initialDelaySeconds</span>: <span class="yn">10</span>
+          <span class="yk">periodSeconds</span>: <span class="yn">10</span>
+        <span class="yk">readinessProbe</span>:
+          <span class="yk">httpGet</span>:
+            <span class="yk">path</span>: <span class="yv">/</span>
+            <span class="yk">port</span>: <span class="yn">80</span>
+          <span class="yk">initialDelaySeconds</span>: <span class="yn">5</span>
+          <span class="yk">periodSeconds</span>: <span class="yn">5</span>
+      <span class="yk">topologySpreadConstraints</span>:
+      - <span class="yk">maxSkew</span>: <span class="yn">1</span>
+        <span class="yk">topologyKey</span>: <span class="yv">kubernetes.io/hostname</span>
+        <span class="yk">whenUnsatisfiable</span>: <span class="yv">ScheduleAnyway</span>
+        <span class="yk">labelSelector</span>:
+          <span class="yk">matchLabels</span>:
+            <span class="yk">app</span>: <span class="yv">frontend-app</span></code></pre></div>
+      </div>
+      <div class="x-pane">
+        <div class="x-sec">
+          <h3>What it does</h3>
+          <p>Runs 4 replicas of the PHP/Apache frontend. Structurally identical to the backend Deployment — same concepts: replicas, labels, probes, topology constraints. Lower resource limits because serving a PHP page is cheaper than running a DB-connected API.</p>
+        </div>
+        <div class="x-sec">
+          <h3>How the frontend finds the backend</h3>
+          <p>The <code>API_URL</code> environment variable is set to <code>http://backend-api-service:3000</code>. Inside <code>index.php</code>, PHP uses cURL to call this URL. The Kubernetes DNS resolver converts <code>backend-api-service</code> to the ClusterIP service's virtual IP (file 08), which then routes to one of the 4 backend pods.</p>
+        </div>
+        <div class="x-sec">
+          <h3>Key fields</h3>
+          <table class="ft">
+            <tr><td>env.API_URL</td><td>Direct value injection (no ConfigMap/Secret reference). In a more production-ready setup, this would come from a ConfigMap so you can change the backend URL without editing the Deployment YAML.</td></tr>
+            <tr><td>livenessProbe: /</td><td>HTTP GET to root path. Unlike the backend, the frontend just checks if Apache is serving — there's no separate health endpoint. Any 2xx response means it's alive.</td></tr>
+            <tr><td>resources</td><td>Lower limits than backend: 128Mi–256Mi memory, 100m–200m CPU. Frontend is mostly I/O — accepting requests and passing through to the API — so it needs less compute than the API layer.</td></tr>
+          </table>
+        </div>
+        <div class="xb cloud">
+          <div class="xb-lbl">In the Cloud</div>
+          <p>In cloud, the frontend would typically be behind an <strong>Ingress</strong> (a layer-7 HTTP router), not a NodePort. The Ingress handles TLS termination (HTTPS), domain routing, and path-based routing. The frontend pods stay exactly like this; only how external traffic enters the cluster changes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILE 10 -->
+  <section class="file-sec" id="f10">
+    <div class="file-hdr">
+      <div class="file-num">10</div>
+      <div class="file-hdr-txt">
+        <div class="file-name">10-frontend-deployment.yml <span style="font-size:12px;color:var(--w);font-weight:400;font-family:inherit">(misnamed — this is the frontend Service)</span></div>
+        <div class="bdg-row">
+          <span class="bdg bdg-kind">Service</span>
+          <span class="bdg bdg-cpt">NodePort</span>
+          <span class="bdg bdg-cpt">External Access</span>
+        </div>
+      </div>
+    </div>
+    <div class="file-body">
+      <div class="y-pane">
+        <div class="y-lbl">YAML</div>
+        <div class="y-blk"><pre><code><span class="yk">apiVersion</span>: <span class="yv">v1</span>
+<span class="yk">kind</span>: <span class="yv">Service</span>
+<span class="yk">metadata</span>:
+  <span class="yk">name</span>: <span class="yv">frontend-service</span>
+  <span class="yk">namespace</span>: <span class="yv">innovate-ecommerce</span>
+<span class="yk">spec</span>:
+  <span class="yk">selector</span>:
+    <span class="yk">app</span>: <span class="yv">frontend-app</span>
+  <span class="yk">ports</span>:
+  - <span class="yk">port</span>: <span class="yn">80</span>
+    <span class="yk">targetPort</span>: <span class="yn">80</span>
+  <span class="yk">type</span>: <span class="yh">NodePort</span></code></pre></div>
+      </div>
+      <div class="x-pane">
+        <div class="x-sec">
+          <h3>What it does</h3>
+          <p>Exposes the frontend to traffic from <em>outside</em> the cluster. A <strong>NodePort</strong> service opens a port on every cluster node (minikube assigns one in the 30000–32767 range). You reach the app via the node's IP + that port.</p>
+        </div>
+        <div class="x-sec">
+          <h3>The three Service types explained</h3>
+          <ul>
+            <li><strong>ClusterIP</strong> (default) — internal only. Only reachable from within the cluster. Used for Postgres (file 05) and backend (file 08).</li>
+            <li><strong>NodePort</strong> — opens a port on every node. Reachable from outside via <code>node-ip:nodePort</code>. Used here for the frontend. Only appropriate for development and minikube.</li>
+            <li><strong>LoadBalancer</strong> — cloud-native. Provisions a cloud load balancer with a public IP. The production equivalent of NodePort.</li>
+          </ul>
+        </div>
+        <div class="x-sec">
+          <h3>Key fields</h3>
+          <table class="ft">
+            <tr><td>type: NodePort</td><td>This one field changes the entire access model. Without it, the service defaults to ClusterIP (internal only).</td></tr>
+            <tr><td>selector.app: frontend-app</td><td>Routes to the pods created by the Deployment in file 09. Same label-based wiring as everywhere else.</td></tr>
+            <tr><td>port: 80</td><td>The service port. NodePort also allocates a random high port (e.g., 31234) on the node. In minikube, use: <code>minikube service frontend-service -n innovate-ecommerce</code> — it opens the URL automatically.</td></tr>
+          </table>
+        </div>
+        <div class="xb cloud">
+          <div class="xb-lbl">In the Cloud</div>
+          <p>Replace <code>type: NodePort</code> with <code>type: LoadBalancer</code> and your cloud provider automatically creates a load balancer and assigns a public IP. Even better: use an <strong>Ingress</strong> resource with cert-manager for automatic TLS. One Ingress can route traffic to many services based on hostname or path, replacing multiple LoadBalancer services and saving on cloud load balancer costs.</p>
+        </div>
+        <div class="xb warn">
+          <div class="xb-lbl">File Naming Note</div>
+          <p>This file is named <code>10-frontend-deployment.yml</code> but contains a Service, not a Deployment. The Deployment is in file 09. In a real project, name it <code>10-frontend-service.yml</code> — the number sequence is the important part (apply order), but the name should describe the content.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ APPLICATION FILES ═══════════════ -->
+  <div class="layer-hdr app" id="app-layer">
+    <span>Applications</span>
+    <strong>Dockerfiles &amp; Source Code</strong>
+    <span>— What runs inside the pods</span>
+  </div>
+
+  <section class="g-sec" id="app-be">
+    <div class="sec-ey">Backend Application</div>
+    <div class="sec-t">backend/ — Node.js + Express</div>
+
+    <p style="margin-bottom:16px">The backend is a REST API that connects to PostgreSQL and exposes CRUD endpoints for products. It is built into a Docker image called <code>backend-app</code> and runs in the pods managed by the Deployment in file 07.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start">
+      <div>
+        <div class="y-lbl" style="font-size:9px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--t3);margin-bottom:7px">backend/Dockerfile</div>
+        <div class="y-blk"><pre><code><span class="jk">FROM</span> <span class="jv">node:20</span>
+<span class="jk">WORKDIR</span> <span class="jv">/app</span>
+<span class="jk">COPY</span> <span class="jv">package.json</span> .
+<span class="jk">RUN</span> <span class="jv">npm install</span>
+<span class="jk">COPY</span> . .
+<span class="jk">EXPOSE</span> <span class="jn">3000</span>
+<span class="jk">CMD</span> [<span class="js">"node"</span>, <span class="js">"server.js"</span>]</code></pre></div>
+        <div style="margin-top:10px;font-size:12.5px;color:var(--t1);line-height:1.6">
+          <p><strong>Layer caching trick:</strong> <code>COPY package.json .</code> + <code>RUN npm install</code> happens <em>before</em> <code>COPY . .</code>. Docker caches each layer. If you only change <code>server.js</code>, Docker skips the npm install layer — rebuilds are much faster. Only when <code>package.json</code> changes does it reinstall dependencies.</p>
+        </div>
+      </div>
+      <div>
+        <div class="y-lbl" style="font-size:9px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--t3);margin-bottom:7px">backend/server.js — Health Endpoints</div>
+        <div class="y-blk"><pre><code><span class="jc">// Liveness: just checks if the process is alive</span>
+<span class="jv">app</span>.<span class="jf">get</span>(<span class="js">'/healthz'</span>, (req, res) => {
+  res.<span class="jf">status</span>(<span class="jn">200</span>).<span class="jf">send</span>(<span class="js">'OK'</span>);
+});
+
+<span class="jc">// Readiness: checks if the DB connection works</span>
+<span class="jv">app</span>.<span class="jf">get</span>(<span class="js">'/readyz'</span>, <span class="jk">async</span> (req, res) => {
+  <span class="jk">try</span> {
+    <span class="jk">await</span> <span class="jv">pool</span>.<span class="jf">query</span>(<span class="js">'SELECT 1'</span>);
+    res.<span class="jf">status</span>(<span class="jn">200</span>).<span class="jf">send</span>(<span class="js">'Ready'</span>);
+  } <span class="jk">catch</span> (err) {
+    res.<span class="jf">status</span>(<span class="jn">503</span>).<span class="jf">send</span>(<span class="js">'Not Ready: DB connection failed'</span>);
+  }
+});</code></pre></div>
+        <div style="margin-top:10px;font-size:12.5px;color:var(--t1);line-height:1.6">
+          <p><strong>Why two health endpoints?</strong> <code>/healthz</code> (liveness) is cheap — it just confirms the Node.js process hasn't crashed. <code>/readyz</code> (readiness) is heavier — it actually queries the database. Kubernetes uses them for different decisions: restart (liveness failure) vs. remove from load balancer (readiness failure). A backend that's alive but can't reach the DB should serve <em>no traffic</em>, but should not be restarted — hence two separate probes.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px" class="xb warn">
+      <div class="xb-lbl">Connection Pool &amp; Env Var Mismatch</div>
+      <p>The <code>pg.Pool</code> reads <code>PGHOST</code>, <code>PGUSER</code>, <code>PGPASSWORD</code>, <code>PGDATABASE</code>. But the Deployment injects <code>POSTGRES_USER</code>, <code>POSTGRES_PASSWORD</code>, <code>POSTGRES_DB</code> from the Secret. These names don't match, so the pg library uses its hardcoded defaults (<code>'postgres-db-service'</code>, <code>'postgres'</code>, <code>'secret'</code>, <code>'ecommerce'</code>) which happen to be the same values. It works — but it's an accidental match. Fix: rename the env vars in the Deployment to <code>PGHOST</code>, <code>PGUSER</code>, <code>PGPASSWORD</code>, <code>PGDATABASE</code> so the intent is explicit.</p>
+    </div>
+  </section>
+
+  <section class="g-sec" id="app-fe">
+    <div class="sec-ey">Frontend Application</div>
+    <div class="sec-t">frontend/ — PHP + Apache</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start">
+      <div>
+        <div class="y-lbl" style="font-size:9px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--t3);margin-bottom:7px">frontend/Dockerfile</div>
+        <div class="y-blk"><pre><code><span class="jk">FROM</span> <span class="jv">php:apache</span>
+<span class="jk">RUN</span> <span class="jv">apt-get update</span> <span class="jk">&amp;&amp;</span> \
+    <span class="jv">apt-get install -y libpq-dev</span> <span class="jk">&amp;&amp;</span> \
+    <span class="jv">docker-php-ext-install mysqli</span> <span class="jk">&amp;&amp;</span> \
+    <span class="jv">docker-php-ext-enable mysqli</span>
+<span class="jk">COPY</span> <span class="jv">index.php</span> <span class="jv">/var/www/html</span></code></pre></div>
+        <div style="margin-top:10px;font-size:12.5px;color:var(--t1);line-height:1.6">
+          <p><strong>Base image:</strong> <code>php:apache</code> bundles PHP + Apache in one image — zero config needed to serve PHP files. The <code>RUN</code> installs the MySQL/PostgreSQL C library and activates the <code>mysqli</code> extension. There's no <code>CMD</code> — Apache starts automatically (the base image's CMD handles it). <code>index.php</code> is placed where Apache looks for files by default.</p>
+        </div>
+      </div>
+      <div>
+        <div class="y-lbl" style="font-size:9px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--t3);margin-bottom:7px">frontend/index.php — API call pattern</div>
+        <div class="y-blk"><pre><code><span class="jv">$api_url</span> = <span class="jf">getenv</span>(<span class="js">'API_URL'</span>)
+         ?: <span class="js">'http://backend-api-service:3000'</span>;
+
+<span class="jc">// cURL helper — calls the backend REST API</span>
+<span class="jk">function</span> <span class="jf">callApi</span>(<span class="jv">$method</span>, <span class="jv">$path</span>, <span class="jv">$data</span>=<span class="jk">null</span>) {
+  <span class="jk">global</span> <span class="jv">$api_url</span>;
+  <span class="jv">$ch</span> = <span class="jf">curl_init</span>(<span class="jv">$api_url</span> . <span class="jv">$path</span>);
+  <span class="jf">curl_setopt</span>(<span class="jv">$ch</span>, CURLOPT_CUSTOMREQUEST, <span class="jv">$method</span>);
+  <span class="jf">curl_setopt</span>(<span class="jv">$ch</span>, CURLOPT_RETURNTRANSFER, <span class="jk">true</span>);
+  <span class="jk">if</span> (<span class="jv">$data</span>) {
+    <span class="jf">curl_setopt</span>(<span class="jv">$ch</span>, CURLOPT_POSTFIELDS,
+      <span class="jf">json_encode</span>(<span class="jv">$data</span>));
+  }
+  <span class="jv">$res</span> = <span class="jf">curl_exec</span>(<span class="jv">$ch</span>);
+  <span class="jk">return</span> <span class="jf">json_decode</span>(<span class="jv">$res</span>, <span class="jk">true</span>);
+}</code></pre></div>
+        <div style="margin-top:10px;font-size:12.5px;color:var(--t1);line-height:1.6">
+          <p><strong>Server-side API calls:</strong> The PHP frontend doesn't make JavaScript fetch calls — it uses PHP cURL to call the backend API on the server side, then renders the HTML response. This is a "server-side rendering" pattern. The browser only sees final HTML — it never talks to the backend directly. All inter-pod communication is cluster-internal.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPLOYMENT GUIDE -->
+  <section class="g-sec" id="deploy">
+    <div class="sec-ey">How to Run This</div>
+    <div class="sec-t">Deployment Order &amp; Why It Matters</div>
+
+    <p>Files are numbered 01–10 because they have <strong>dependencies</strong>. The namespace must exist before anything else. Secrets and ConfigMaps before the pods that consume them. Services before the pods (so DNS resolves when the pod starts). Apply in order:</p>
+
+    <div class="d-steps">
+      <div class="d-step">
+        <div class="d-n">1</div>
+        <div class="d-body">
+          <h4>Build the Docker images inside minikube's Docker daemon</h4>
+          <p>minikube has its own Docker daemon separate from your host. You must build images there so <code>imagePullPolicy: Never</code> can find them.</p>
+          <div class="cmd"><span class="p">$ </span><span class="h">eval $(minikube docker-env)</span>  <span class="c"># point your shell at minikube's Docker</span>
+<span class="p">$ </span><span class="h">docker build -t backend-app ./backend</span>
+<span class="p">$ </span><span class="h">docker build -t frontend-app ./frontend</span></div>
+        </div>
+      </div>
+      <div class="d-step">
+        <div class="d-n">2</div>
+        <div class="d-body">
+          <h4>Apply all manifests in order</h4>
+          <p>Apply every file in numerical order. The <code>-n</code> flag isn't needed if your manifests include the namespace field (which they do), but the namespace itself must be created first.</p>
+          <div class="cmd"><span class="p">$ </span><span class="h">kubectl apply -f 01-namespace.yml</span>
+<span class="p">$ </span><span class="h">kubectl apply -f 02-secret.yml</span>
+<span class="p">$ </span><span class="h">kubectl apply -f 03-configmap.yml</span>
+<span class="p">$ </span><span class="h">kubectl apply -f 04-postgres-service-headless.yml</span>
+<span class="p">$ </span><span class="h">kubectl apply -f 05-postgres-service-clusterip.yml</span>
+<span class="p">$ </span><span class="h">kubectl apply -f 06-postgres-statefulset.yml</span>
+<span class="p">$ </span><span class="h">kubectl apply -f 07-backend-deployment.yml</span>
+<span class="p">$ </span><span class="h">kubectl apply -f 08-backend-service.yml</span>
+<span class="p">$ </span><span class="h">kubectl apply -f 09-frontend-deployment.yml</span>
+<span class="p">$ </span><span class="h">kubectl apply -f 10-frontend-deployment.yml</span>
+<span class="c"># Or apply everything at once:</span>
+<span class="p">$ </span><span class="h">kubectl apply -f .</span></div>
+        </div>
+      </div>
+      <div class="d-step">
+        <div class="d-n">3</div>
+        <div class="d-body">
+          <h4>Create the products table</h4>
+          <p>PostgreSQL starts empty — you need to create the table manually (or with an init script). Exec into the Postgres pod:</p>
+          <div class="cmd"><span class="p">$ </span><span class="h">kubectl exec -it postgres-db-0 -n innovate-ecommerce -- psql -U postgres -d ecommerce</span>
+<span class="p">ecommerce=# </span><span class="f">CREATE TABLE products (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  price NUMERIC(10,2) NOT NULL,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);</span></div>
+        </div>
+      </div>
+      <div class="d-step">
+        <div class="d-n">4</div>
+        <div class="d-body">
+          <h4>Open the frontend in a browser</h4>
+          <div class="cmd"><span class="p">$ </span><span class="h">minikube service frontend-service -n innovate-ecommerce</span>
+<span class="c"># Opens http://&lt;minikube-ip&gt;:&lt;nodePort&gt; in your browser automatically</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KUBECTL CHEATSHEET -->
+  <section class="g-sec" id="kubectl">
+    <div class="sec-ey">Reference</div>
+    <div class="sec-t">kubectl Commands for This Project</div>
+    <p>All commands target the <code>innovate-ecommerce</code> namespace. Add <code>-n innovate-ecommerce</code> to every command.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:16px">
+      <div>
+        <div class="y-lbl" style="font-size:9px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--t3);margin-bottom:8px">Inspect everything</div>
+        <div class="cmd"><span class="p">$ </span><span class="h">kubectl get all -n innovate-ecommerce</span>
+<span class="p">$ </span><span class="h">kubectl get pods -n innovate-ecommerce</span>
+<span class="p">$ </span><span class="h">kubectl get services -n innovate-ecommerce</span>
+<span class="p">$ </span><span class="h">kubectl describe pod &lt;pod-name&gt; -n innovate-ecommerce</span></div>
+      </div>
+      <div>
+        <div class="y-lbl" style="font-size:9px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--t3);margin-bottom:8px">Debug a deployment</div>
+        <div class="cmd"><span class="p">$ </span><span class="h">kubectl logs &lt;pod-name&gt; -n innovate-ecommerce</span>
+<span class="p">$ </span><span class="h">kubectl logs -l app=backend-api -n innovate-ecommerce</span>
+<span class="p">$ </span><span class="h">kubectl rollout status deployment/backend-api -n innovate-ecommerce</span>
+<span class="p">$ </span><span class="h">kubectl rollout undo deployment/backend-api -n innovate-ecommerce</span></div>
+      </div>
+      <div>
+        <div class="y-lbl" style="font-size:9px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--t3);margin-bottom:8px">Scale and update</div>
+        <div class="cmd"><span class="p">$ </span><span class="h">kubectl scale deployment backend-api --replicas=6 -n innovate-ecommerce</span>
+<span class="p">$ </span><span class="h">kubectl get configmap api-config -n innovate-ecommerce -o yaml</span>
+<span class="p">$ </span><span class="h">kubectl get secret db-credentials -n innovate-ecommerce -o yaml</span></div>
+      </div>
+      <div>
+        <div class="y-lbl" style="font-size:9px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;color:var(--t3);margin-bottom:8px">Tear it all down</div>
+        <div class="cmd"><span class="p">$ </span><span class="h">kubectl delete namespace innovate-ecommerce</span>
+<span class="c"># Deletes everything inside the namespace at once</span>
+<span class="c"># PVCs are also deleted — data is lost</span></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+const links = document.querySelectorAll('.sb-a');
+const sections = document.querySelectorAll('[id]');
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector('.sb-a[href="#' + e.target.id + '"]');
+      if (active) {
+        active.classList.add('active');
+        active.scrollIntoView({ block: 'nearest' });
+      }
+    }
+  });
+}, { rootMargin: '-10% 0px -80% 0px' });
+
+sections.forEach(s => io.observe(s));
+</script>
